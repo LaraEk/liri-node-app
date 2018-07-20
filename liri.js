@@ -72,16 +72,28 @@ function spotifyThisSong() {
 };
 
 function movieThis() {
-    console.log("this should work! it isn't working currently");
+    console.log("this should work! it isn't working currently"); 
+    var moviearray = "";
+    for(var i=3; i < process.argv; i++)
+    {
+        moviearray = moviearray + "+" + process.argv[i];
+    }
+
+    console.log(moviearray);
+
     var movie = process.argv[3];
     console.log(movie);
     if (!movie) {
         console.log("No movie has been entered?  That's okay, I've got a great movie suggestion for you!");
-        movie = "Pan's Lbyrinth";
+        movie = "Pan's Labyrinth";
     }
-    params = movie 
-    request = ("http://www.omdbapi.com/?t=" + params + "&y=&plot=short&r=json&tomatoes=true&apikey=trilogy", function (error, response, body) {
-        if (!error && response.StatusCode == 200) {
+    params = movie;
+
+    console.log("http://www.omdbapi.com/?t=" + params + "&y=&plot=short&r=json&tomatoes=true&apikey=trilogy");
+
+    request("http://www.omdbapi.com/?t=" + params + "&y=&plot=short&r=json&tomatoes=true&apikey=trilogy", function (error, response, body) {
+        console.log(response.StatusCode); 
+    if (!error && response.StatusCode == 200) {
             var body = JSON.parse(body);
             console.log(body);
             var body = "Here are the stats for your movie!" + "\r\n" +
