@@ -6,9 +6,10 @@ var request = require("request");
 
 
 var keys = require('./keys.js');
-// var twitter = require('twitter');
-// var spotify = require('spotify');
+ var twitter = require('twitter');
+var spotify = require('node-spotify-api');
 
+var spotify = new spotify(keys.spotify);
 
 var givenArg = process.argv[2];
 
@@ -40,11 +41,11 @@ function myTweets() {
 };
 
 function spotifyThisSong() {
-    console.log("I am working on this now");
+    console.log("~ have some music ~");
     var songTitle = process.argv[3];
     console.log(songTitle);
     if (!songTitle) {
-        console.log("that's okay, I've got a great song for you!");
+        console.log("No song has been entered?  That's okay, I've got a great song for you!");
         songTitle = "Mr Blue Sky";
     }
     params = songTitle;
@@ -75,23 +76,24 @@ function movieThis() {
     var movie = process.argv[3];
     console.log(movie);
     if (!movie) {
-        movie = "dark city";
+        console.log("No movie has been entered?  That's okay, I've got a great movie suggestion for you!");
+        movie = "Pan's Lbyrinth";
     }
     params = movie 
     request = ("http://www.omdbapi.com/?t=" + params + "&y=&plot=short&r=json&tomatoes=true&apikey=trilogy", function (error, response, body) {
         if (!error && response.StatusCode == 200) {
-            var movieObject = JSON.parse(body);
-            console.log(movieObject);
-            var movieResults = "Here are the stats for your movie!" + "\r\n" +
-            "Title: " + movieObject.Title + "\r\n" +
-            "Year: " + movieObject.Year + "\r\n" +
-            "Imdb Rating: " + movieObject.imdbRating + "\r\n" +
-            "Rotten Tomatoes Rating: " + movieObject.tomatoRating+"\r\n" +
-            "Country: " + movieObject.Country + "\r\n" +
-            "Language: " + movieObject.Language + "\r\n" +
-            "Plot: " + movieObject.Plot + "\r\n" +
-            "Actors: " + movieObject.Actors + "\r\n";
-            console.log(movieResults);
+            var body = JSON.parse(body);
+            console.log(body);
+            var body = "Here are the stats for your movie!" + "\r\n" +
+            "Title: " + body.Title + "\r\n" +
+            "Year: " + body.Year + "\r\n" +
+            "Imdb Rating: " + body.imdbRating + "\r\n" +
+            "Rotten Tomatoes Rating: " + body.tomatoRating+"\r\n" +
+            "Country: " + body.Country + "\r\n" +
+            "Language: " + body.Language + "\r\n" +
+            "Plot: " + body.Plot + "\r\n" +
+            "Actors: " + body.Actors + "\r\n";
+            console.log(body);
         } else {
             console.log("to err is human, to forgive, divine" + "\r\n" + error);
             return;
