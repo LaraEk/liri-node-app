@@ -10,6 +10,7 @@ var keys = require('./keys.js');
 var spotify = require('node-spotify-api');
 
 var spotify = new spotify(keys.spotify);
+var client = new twitter(keys.twitter);
 
 var givenArg = process.argv[2];
 
@@ -39,20 +40,27 @@ isitworking();
 function myTweets() {
     console.log("working on this now");
     var client = new twitter( {
-        consumer_key: key.twitterKeys.consumer_key,
-        consumer_secret: keys.twitterKeys.consumer_secret,
-        access_token_key: keys.twitterKeys.access_token_key,
-        access_token_secret: keys.twitterKeys.access_token_secret,
+        consumer_key: keys.twitter.consumer_key,
+        consumer_secret: keys.twitter.consumer_secret,
+        access_token_key: keys.twitter.access_token_key,
+        access_token_secret: keys.twitter.access_token_secret,
     });
-    var twitterUserName = progess.argv[3];
+    var twitterUserName = process.argv[3];
     if(!twitterUserName) {
         twitterUserName = "thedayswillral1"
     }
-    var params = {screen_name: 'nodejs'};
+    var params = {screen_name: "thedayswillral1", count: 20};
     client.get('statuses/user_timeline', params, function(error, tweets, response) {
         if (!error) {
-            console.log(tweets);
-//            console.log(response);
+            for(var i = 0; i < tweets.length; i++) {
+//            console.log(tweets);
+                    var twitterResults = 
+                    tweets[i].user.screen_name + ": " + 
+					tweets[i].text + "\r\n" + 
+					tweets[i].created_at + "\r\n" + 
+					"------------------------------ " + i + " ------------------------------" + "\r\n";
+                    console.log(twitterResults);
+            }
         } else {
             console.log("to err is human, to forgive, divine" + "\r\n" + "Your error was: " + error);
             return;
