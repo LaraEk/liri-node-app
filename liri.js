@@ -37,7 +37,28 @@ isitworking();
 
 
 function myTweets() {
-    console.log("is working; WIP");
+    console.log("working on this now");
+    var client = new twitter( {
+        consumer_key: key.twitterKeys.consumer_key,
+        consumer_secret: keys.twitterKeys.consumer_secret,
+        access_token_key: keys.twitterKeys.access_token_key,
+        access_token_secret: keys.twitterKeys.access_token_secret,
+    });
+    var twitterUserName = progess.argv[3];
+    if(!twitterUserName) {
+        twitterUserName = "thedayswillral1"
+    }
+    var params = {screen_name: 'nodejs'};
+    client.get('statuses/user_timeline', params, function(error, tweets, response) {
+        if (!error) {
+            console.log(tweets);
+//            console.log(response);
+        } else {
+            console.log("to err is human, to forgive, divine" + "\r\n" + "Your error was: " + error);
+            return;
+        }
+    });
+
 };
 
 function spotifyThisSong() {
@@ -65,7 +86,7 @@ function spotifyThisSong() {
                 }
             }
         } else {
-            console.log("to err is human, to forgive, divine" + "\r\n" + error);
+            console.log("to err is human, to forgive, divine" + "\r\n" + "Your error was: " + error);
             return;
         }
     });
@@ -73,13 +94,12 @@ function spotifyThisSong() {
 
 function movieThis() {
     console.log("this should work! it isn't working currently"); 
-    var moviearray = "";
-    for(var i=3; i < process.argv; i++)
-    {
-        moviearray = moviearray + "+" + process.argv[i];
-    }
-
-    console.log(moviearray);
+    // var moviearray = "";
+    // for(var i=3; i < process.argv; i++)
+    // {
+    //     moviearray = moviearray + "+" + process.argv[i];
+    // }
+    // console.log(moviearray);
 
     var movie = process.argv[3];
     console.log(movie);
@@ -107,7 +127,7 @@ function movieThis() {
             "Actors: " + body.Actors + "\r\n";
             console.log(body);
         } else {
-            console.log("to err is human, to forgive, divine" + "\r\n" + error);
+            console.log("to err is human, to forgive, divine" + "\r\n" + "Your error was: " + error);
             return;
         }
     });
@@ -121,23 +141,7 @@ function doWhatItSays () {
             pleaseDoWhatItSays = data.split(",");
             spotifyThisSong(pleaseDoWhatItSays[0],pleaseDoWhatItSays[1]);
         } else {
-            console.log("to err is human, to forgive, divine" + "\r\n" + error);
+            console.log("to err is human, to forgive, divine" + "\r\n" + "Your error was: " + error);
         }
     });
 };
-
-
-    // 8. At the top of the `liri.js` file, add code to read and set any environment variables with the dotenv package:
-
-// ```js
-// require("dotenv").config();
-// ```
-
-// 9. Add the code required to import the `keys.js` file and store it in a variable.
-  
-// * You should then be able to access your keys information like so
-
-//   ```js
-//   var spotify = new Spotify(keys.spotify);
-//   var client = new Twitter(keys.twitter);
-//   ```
