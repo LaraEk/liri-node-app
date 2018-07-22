@@ -30,15 +30,17 @@ isitworking();
      case "do-what-it-says": doWhatItSays();
      break;
      default: console.log("\r\n" + "Please type one of the commands below.  If the song or movie title you're searching more is more than one word long, please enclose it in quotation marks." + "\r\n" +
-    "1. node liri.js my-tweets 'any twitter handle' " + "\r\n" +
-    "2. node liri.js spotify-this-song 'any song title' " + "\r\n" +
+    "1. node liri.js my-tweets " + "\r\n" +
+    "2. node liri.js spotify-this-song " + "\r\n" +
+    "2b: you can add 'any song title' to this and it will find that song title" + "\r\n" +
     "3. node liri.js movie-this 'any movie title' " + "\r\n" +
+    "3b: you can add 'any movie title' to this and it will find that movie title" + "\r\n" +
     "4. node liri.js do-what-it-says");
  }
 
 
 function myTweets() {
-    console.log("working on this now");
+    console.log("~ have some tweets ~");
     var client = new twitter( {
         consumer_key: keys.twitter.consumer_key,
         consumer_secret: keys.twitter.consumer_secret,
@@ -80,7 +82,7 @@ function spotifyThisSong() {
     params = songTitle;
     spotify.search({type: "track", query: params}, function(err, data) {
         if (!err) {
-            console.log("no error!");
+            console.log("no error!  only music!");
             var songInfo = data.tracks.items;
             for (var i = 0; i < 5; i++) {
                 if (songInfo[i] != undefined) {
@@ -101,30 +103,23 @@ function spotifyThisSong() {
 };
 
 function movieThis() {
-    console.log("this should work! it isn't working currently"); 
-    // var moviearray = "";
-    // for(var i=3; i < process.argv; i++)
-    // {
-    //     moviearray = moviearray + "+" + process.argv[i];
-    // }
-    // console.log(moviearray);
-
+    console.log("Movietime!!"); 
     var movie = process.argv[3];
-    console.log(movie);
+//    console.log(movie);
     if (!movie) {
         console.log("No movie has been entered?  That's okay, I've got a great movie suggestion for you!");
-        movie = "Pan's Labyrinth";
+        movie = "Volver";
     }
     params = movie;
-
-    console.log("http://www.omdbapi.com/?t=" + params + "&y=&plot=short&r=json&tomatoes=true&apikey=trilogy");
-
-    request("http://www.omdbapi.com/?t=" + params + "&y=&plot=short&r=json&tomatoes=true&apikey=trilogy", function (error, response, body) {
-        console.log(response.StatusCode); 
-    if (!error && response.StatusCode == 200) {
+//    console.log("http://www.omdbapi.com/?t=" + params + "&y=&plot=short&r=json&tomatoes=true&apikey=trilogy");
+    var movieURL = "http://www.omdbapi.com/?t=" + params + "&y=&plot=short&r=json&tomatoes=true&apikey=trilogy"; 
+    request(movieURL, function (error, response, body) {
+//        console.log(response); 
+    if (!error) {
             var body = JSON.parse(body);
-            console.log(body);
+  //          console.log(body);
             var body = "Here are the stats for your movie!" + "\r\n" +
+            " ---------------------- "  + "\r\n" +
             "Title: " + body.Title + "\r\n" +
             "Year: " + body.Year + "\r\n" +
             "Imdb Rating: " + body.imdbRating + "\r\n" +
@@ -132,7 +127,8 @@ function movieThis() {
             "Country: " + body.Country + "\r\n" +
             "Language: " + body.Language + "\r\n" +
             "Plot: " + body.Plot + "\r\n" +
-            "Actors: " + body.Actors + "\r\n";
+            "Actors: " + body.Actors + "\r\n" + 
+            " ---------------------- ";
             console.log(body);
         } else {
             console.log("to err is human, to forgive, divine" + "\r\n" + "Your error was: " + error);
