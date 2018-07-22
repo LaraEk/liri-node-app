@@ -1,9 +1,7 @@
-
 var fs = require("fs");
 // this one reads/writes files!
 var request = require("request");
 // this one makes requests!
-
 
 var keys = require('./keys.js');
  var twitter = require('twitter');
@@ -14,11 +12,11 @@ var client = new twitter(keys.twitter);
 
 var givenArg = process.argv[2];
 
-function isitworking() {
-    console.log(givenArg);
-};
+// function isitworking() {
+//     console.log(givenArg);
+// };
 
-isitworking();
+// isitworking();
 
  switch(givenArg) {
      case "my-tweets": myTweets();
@@ -40,7 +38,7 @@ isitworking();
 
 
 function myTweets() {
-    console.log("~ have some tweets ~");
+    console.log("\r\n" + "~ have some tweets ~" + "\r\n");
     var client = new twitter( {
         consumer_key: keys.twitter.consumer_key,
         consumer_secret: keys.twitter.consumer_secret,
@@ -51,11 +49,10 @@ function myTweets() {
     if(!twitterUserName) {
         twitterUserName = "thedayswillral1"
     }
-    var params = {screen_name: "thedayswillral1", count: 20};
+    var params = {screen_name: twitterUserName, count: 20};
     client.get('statuses/user_timeline', params, function(error, tweets, response) {
         if (!error) {
             for(var i = 0; i < tweets.length; i++) {
-//            console.log(tweets);
                     var twitterResults = 
                     tweets[i].user.screen_name + ": " + 
 					tweets[i].text + "\r\n" + 
@@ -68,11 +65,10 @@ function myTweets() {
             return;
         }
     });
-
 };
 
 function spotifyThisSong() {
-    console.log("~ have some music ~");
+    console.log("\r\n" + "~ have some music ~" + "\r\n");
     var songTitle = process.argv[3];
     console.log(songTitle);
     if (!songTitle) {
@@ -103,21 +99,17 @@ function spotifyThisSong() {
 };
 
 function movieThis() {
-    console.log("Movietime!!"); 
+    console.log("\r\n" + "Movietime!!" + "\r\n"); 
     var movie = process.argv[3];
-//    console.log(movie);
     if (!movie) {
         console.log("No movie has been entered?  That's okay, I've got a great movie suggestion for you!");
         movie = "Volver";
     }
     params = movie;
-//    console.log("http://www.omdbapi.com/?t=" + params + "&y=&plot=short&r=json&tomatoes=true&apikey=trilogy");
     var movieURL = "http://www.omdbapi.com/?t=" + params + "&y=&plot=short&r=json&tomatoes=true&apikey=trilogy"; 
     request(movieURL, function (error, response, body) {
-//        console.log(response); 
     if (!error) {
             var body = JSON.parse(body);
-  //          console.log(body);
             var body = "Here are the stats for your movie!" + "\r\n" +
             " ---------------------- "  + "\r\n" +
             "Title: " + body.Title + "\r\n" +
@@ -138,10 +130,10 @@ function movieThis() {
 };
 
 function doWhatItSays () {
-    console.log("Do What It Says function is functioning!");
+    console.log("\r\n" + "Do What It Says function is functioning!" + "\r\n");
     fs.readFile("random.txt", "utf8", function(error, data) {
         if (!error) {
-            console.log("let's have a nice chill song for you");
+            console.log(" ~ let's have a nice chill song for you ~ ");
             pleaseDoWhatItSays = data.split(",");
             spotifyThisSong(pleaseDoWhatItSays[0],pleaseDoWhatItSays[1]);
         } else {
